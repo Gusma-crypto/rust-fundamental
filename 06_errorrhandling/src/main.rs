@@ -1,39 +1,40 @@
-struct Wallet {
-    balance: u64,
+struct Product {
+    name: String,
+    price: i32,
 }
-enum Action {
-    Deposit(u64),
-    Withdraw(u64),
-}
-impl Wallet {
-    fn apply(&mut self, action: Action) {
-        //match action seperti switch case
-        //atau if else berlapis
-        //jik action dipilin deposit maka lakukan aksi deposit
-        //jika action di pilih witdhtraw maka lakukan aksi withdraw
-        match action {
-            //jika action deposit
-            Action::Deposit(amount) => {
-                self.balance += amount;
-                println!("Deposit {} → Saldo {}", amount, self.balance);
-            }
-            //jika action withdraw
-            Action::Withdraw(amount) => {
-                if self.balance >= amount {
-                    self.balance -= amount;
-                    println!("Withdraw {} → Saldo {}", amount, self.balance);
-                } else {
-                    println!("Saldo tidak cukup");
-                }
-            }
+
+impl Product {
+    fn new(name: &str, price: i32) -> Result<Product, String> {
+        if price < 0 {
+            return Err(String::from("Price cannot be negative"));
         }
+        Ok(Product {
+            name: name.to_string(),
+            price,
+        })
     }
+
+    // fn new(name: &str, price: i32) -> Result<Product, String> {
+    //     if price < 0 {
+    //         return Err(String::from("Price cannot be negative"));
+    //     }
+
+    //     Ok(Product {
+    //         name: name.to_string(),
+    //         price,
+    //     })
+    // }
+    
 }
 
-fn main() {
-    let mut wallet = Wallet { balance: 100 };
+fn main(){
+    match Product::new("Laptop", 1500) {
+        Ok(product) => println!("Product created: {} with price {}", product.name, product.price),
+        Err(e) => println!("Error creating product: {}", e),
+    }
 
-    wallet.apply(Action::Deposit(50));
-    wallet.apply(Action::Withdraw(30));
-    wallet.apply(Action::Withdraw(20));
+    match Product::new("Smartphone", -500) {
+        Ok(product) => println!("Product created: {} with price {}", product.name, product.price),
+        Err(e) => println!("Error creating product: {}", e), // "Price cannot be negative"
+    }
 }
