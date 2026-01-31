@@ -1,3 +1,4 @@
+//struct in enum
 enum Product{
     Book { title: String, author: String, price: i32 },
     Electronics { name: String, brand: String, price: i32 },
@@ -23,6 +24,7 @@ fn main(){
         price: 150000,
     };
 
+    //use match to see different outputs xample change _book to _electronik or _clothing  
     match _book{
         Product::Book{title, author, price}=>{
             println!("Buku: {}, Penulis: {}, Harga: {}", title, author, price);
